@@ -9,5 +9,5 @@ Git is a version control system
 h2
 hello
 stupied dog
-Git is free software
+Git is a free software
 last dev
