@@ -10,4 +10,9 @@ h2
 hello
 stupied dog
 Git is a free software
-last master
+<<<<<<< Updated upstream
+last dev
+=======
+last dev
+what is wrong whith stash
+>>>>>>> Stashed changes
