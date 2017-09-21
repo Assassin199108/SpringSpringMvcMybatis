@@ -23,7 +23,7 @@ public class DemoAnnoController {
 
     @RequestMapping(value = "/requestParam/{str}", produces = "text/plain;charset=UTF-8")
     public @ResponseBody String demoPathVar (@PathVariable String str, HttpServletRequest request){
-        return "url:"+request.getRequestURL()+"can access,str"+str;
+        return "url:"+request.getRequestURL()+"can access,str:"+str;
     }
 
     @RequestMapping(value = "/requestParam",produces = "text/plain;charset=UTF-8")

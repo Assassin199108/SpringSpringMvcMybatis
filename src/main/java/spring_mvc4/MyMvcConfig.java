@@ -4,10 +4,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.multipart.MultipartResolver;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
+import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 import spring_mvc4.interceptor.DemoInterceptor;
@@ -20,6 +19,21 @@ import spring_mvc4.interceptor.DemoInterceptor;
 @EnableWebMvc
 @ComponentScan("spring_mvc4")
 public class MyMvcConfig extends WebMvcConfigurerAdapter{
+
+    /**
+     * 页面导向使用:不需要再添加controller添加重定向页面
+     * @param registry
+     */
+    @Override
+    public void addViewControllers(ViewControllerRegistry registry) {
+        registry.addViewController("/index2").setViewName("/index");
+        registry.addViewController("/toUpload").setViewName("/upload");
+    }
+
+    @Override
+    public void configurePathMatch(PathMatchConfigurer configurer) {
+        configurer.setUseSuffixPatternMatch(false);
+    }
 
     @Bean
     @Primary
@@ -34,6 +48,13 @@ public class MyMvcConfig extends WebMvcConfigurerAdapter{
     @Bean
     public DemoInterceptor demoInterceptor(){
         return new DemoInterceptor();
+    }
+
+    @Bean
+    public MultipartResolver multipartResolver(){
+        CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
+        multipartResolver.setMaxUploadSize(1000000);
+        return multipartResolver;
     }
 
     @Override
