@@ -1,18 +1,5 @@
-<<<<<<< HEAD
-Creating a new branch is quick and simple
-=======
-Creating a new branch is quick and simple
->>>>>>> featurel
-Creating a new branch is quick
-hello gitHub
-Git is a version control system
-h2
-hello
-stupied dog
-Git is a free software
-<<<<<<< Updated upstream
-last dev
-=======
-last dev
-what is wrong whith stash
->>>>>>> Stashed changes
+tips：
+day04 servletContext对象 可以由request获取
+
+day03 webServlet由实现WebApplicationInitializer升级为继承AbstractAnnotationConfigDispatcherServletInitializer
+        重写里面的Servlet方法，实现DispatcherSerlver一些功能

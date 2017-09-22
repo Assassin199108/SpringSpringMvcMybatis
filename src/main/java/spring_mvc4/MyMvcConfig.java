@@ -20,6 +20,11 @@ import spring_mvc4.interceptor.DemoInterceptor;
 @ComponentScan("spring_mvc4")
 public class MyMvcConfig extends WebMvcConfigurerAdapter{
 
+    public MyMvcConfig() {
+        super();
+    }
+
+
     /**
      * 页面导向使用:不需要再添加controller添加重定向页面
      * @param registry
@@ -32,6 +37,7 @@ public class MyMvcConfig extends WebMvcConfigurerAdapter{
 
     @Override
     public void configurePathMatch(PathMatchConfigurer configurer) {
+        //设置.后缀的参数不会取消
         configurer.setUseSuffixPatternMatch(false);
     }
 
@@ -61,7 +67,10 @@ public class MyMvcConfig extends WebMvcConfigurerAdapter{
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         //addResourceLocations指的是文件放置的目录，addResourceHandler是对外暴露的访问路径
         registry.addResourceHandler("/assets/**").addResourceLocations("classpath:/assets/");
+        registry.addResourceHandler("/error/**").addResourceLocations("classpath:/error/");
     }
+
+
 
     /**
      * 新增拦截器  拦截器需要普通bean实现HanlderInterceptor接口或者继承HandlerInterceptorAdapter类来实现
