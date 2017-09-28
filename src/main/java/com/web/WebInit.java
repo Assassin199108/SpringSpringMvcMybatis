@@ -7,10 +7,12 @@ import org.springframework.web.context.support.AnnotationConfigWebApplicationCon
 import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 import spring_mvc4.MyMvcConfig;
+import spring_mvc4.filter.MyFilterTest;
 
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRegistration;
+import javax.servlet.*;
+import java.util.EnumSet;
+
+import static javax.servlet.DispatcherType.*;
 
 /**
  * Created by wangwei on 2017/9/17.
@@ -18,6 +20,17 @@ import javax.servlet.ServletRegistration;
  */
 public class WebInit extends AbstractAnnotationConfigDispatcherServletInitializer {
 
+    /**
+     * 注册初始变量
+     * 注册dispatcherSerlvet
+     * 注册filter
+     * 注册新的servlet
+     * 注册listener 监听器
+     *
+     * 填充servlet内容
+     * @param servletContext
+     * @throws ServletException
+     */
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException {
         String servletName = getServletName();
@@ -39,6 +52,11 @@ public class WebInit extends AbstractAnnotationConfigDispatcherServletInitialize
 
         servletContext.setAttribute("initMsg","my name is wang");//设置servlet全局参数
 
+        FilterRegistration.Dynamic filter = servletContext.addFilter("test", MyFilterTest.class);
+
+        filter.setInitParameter("my first Filter","MyFilterTest");
+        filter.addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST),true,"/");
+        filter.addMappingForServletNames(EnumSet.of(DispatcherType.REQUEST),true,"SpringMvcFilter");
     }
 
     @Override

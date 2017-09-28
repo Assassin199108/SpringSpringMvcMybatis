@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * Created by wangwei on 2017/9/22.
+ * 执行过程中遇到异常将交给HandlerExceptionResolver来解析
+ * 执行过程中出现异常
  */
 public class MyHandlerExceptionResolver implements HandlerExceptionResolver {
 

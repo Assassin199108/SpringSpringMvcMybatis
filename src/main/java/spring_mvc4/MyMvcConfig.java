@@ -4,12 +4,19 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.core.Ordered;
+import org.springframework.dao.DataAccessException;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
+import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.config.annotation.*;
+import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
+import spring_mvc4.exeception.MySimpleMappingExceptionResolver;
 import spring_mvc4.interceptor.DemoInterceptor;
+
+import java.util.Properties;
 
 /**
  * Created by wangwei on 2017/9/18.
@@ -51,11 +58,19 @@ public class MyMvcConfig extends WebMvcConfigurerAdapter{
         return viewResolver;
     }
 
+    /**
+     * 声明自己的拦截器
+     * @return
+     */
     @Bean
     public DemoInterceptor demoInterceptor(){
         return new DemoInterceptor();
     }
 
+    /**
+     * 声明自己的文件上传
+     * @return
+     */
     @Bean
     public MultipartResolver multipartResolver(){
         CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
@@ -63,6 +78,32 @@ public class MyMvcConfig extends WebMvcConfigurerAdapter{
         return multipartResolver;
     }
 
+    /**
+     * 自定义的全局handlermapping一些异常的默认处理
+     * @return
+     */
+    @Bean
+    public SimpleMappingExceptionResolver simpleMappingExceptionResolver(){
+        SimpleMappingExceptionResolver resolver = new MySimpleMappingExceptionResolver();
+
+        resolver.setOrder(Ordered.HIGHEST_PRECEDENCE);
+        Properties properties = new Properties();
+        properties.setProperty(NoHandlerFoundException.class.getName(),"exception/404");
+        properties.setProperty(DataAccessException.class.getName(),"exception/database");
+
+        resolver.setExceptionMappings(properties);
+        resolver.setDefaultErrorView("exception/404");
+        resolver.setExceptionAttribute("exception");
+        resolver.setWarnLogCategory(getClass().getName());
+
+        return resolver;
+
+    }
+
+    /**
+     * 不被拦截，对外暴露的地址
+     * @param registry
+     */
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         //addResourceLocations指的是文件放置的目录，addResourceHandler是对外暴露的访问路径
