@@ -6,6 +6,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.Ordered;
 import org.springframework.dao.DataAccessException;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.NoHandlerFoundException;
@@ -14,8 +16,10 @@ import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 import spring_mvc4.exeception.MySimpleMappingExceptionResolver;
+import spring_mvc4.httpMessage.MyMessageConverter;
 import spring_mvc4.interceptor.DemoInterceptor;
 
+import java.util.List;
 import java.util.Properties;
 
 /**
@@ -24,6 +28,7 @@ import java.util.Properties;
  */
 @Configuration
 @EnableWebMvc
+@EnableScheduling
 @ComponentScan("spring_mvc4")
 public class MyMvcConfig extends WebMvcConfigurerAdapter{
 
@@ -40,6 +45,7 @@ public class MyMvcConfig extends WebMvcConfigurerAdapter{
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/index2").setViewName("/index");
         registry.addViewController("/toUpload").setViewName("/upload");
+        registry.addViewController("/convert").setViewName("/converter");
     }
 
     @Override
@@ -98,6 +104,32 @@ public class MyMvcConfig extends WebMvcConfigurerAdapter{
 
         return resolver;
 
+    }
+
+    /**
+     * 配置自定义的HttpMessageConverter的Bean，在Spring MVC注册HttpMessageConverter的2个方法
+     * 仅添加自定义的HttpMessageConverter，不覆盖默认注册的仅添加自定义的HttpMessageConverter
+     *
+     * @param converters
+     */
+    @Override
+    public void extendMessageConverters(List<HttpMessageConverter<?>> converters){
+        converters.add(converter());
+    }
+
+    @Bean
+    public MyMessageConverter converter(){
+        return new MyMessageConverter();
+    }
+
+    /**
+     *  重载会覆盖掉SpringMvc默认注册的多个HttpMessageConverter
+     *
+     * @param converters
+     */
+    @Override
+    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+        super.configureMessageConverters(converters);
     }
 
     /**

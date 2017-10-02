@@ -1,4 +1,48 @@
 tips：
+day08一：监听器的作用：                  监听对象                        监听对象的属性
+        1：统计在线人数和在线用户       HttpSessionListener           httpSessionAttributeListener
+        2：系统启动时加载初始化信息      servletContentListener       ServletContextAttributeListener
+        3：统计网站访问量               ServletRequestListenr        ServletRequestAttributeListener
+        4：跟Spring结合             例如:servletContentListener     ServletContextAttributeListener
+
+     二：HttpMessageConverter是用来处理request和response里的数据的
+        extendMessageConverters
+            配置自定义的HttpMessageConverter的Bean，在Spring MVC注册HttpMessageConverter的2个方法
+            仅添加自定义的HttpMessageConverter，不覆盖默认注册的仅添加自定义的HttpMessageConverter
+
+        configureMessageConverters:
+            重载会覆盖掉SpringMvc默认注册的多个HttpMessageConverter
+
+day07一：
+        Spring MVC 内置默认的request作用域所存在的上下文全部的参数 例如：
+        集合1参数为:org.springframework.web.context.request.async.WebAsyncManager.WEB_ASYNC_MANAGER
+        集合2参数为:org.springframework.web.servlet.DispatcherServlet.CONTEXT
+        集合3参数为:org.springframework.web.servlet.DispatcherServlet.LOCALE_RESOLVER
+        集合4参数为:org.springframework.web.servlet.HandlerMapping.bestMatchingPattern
+        集合5参数为:org.springframework.web.servlet.DispatcherServlet.OUTPUT_FLASH_MAP
+        集合6参数为:org.springframework.web.servlet.HandlerMapping.pathWithinHandlerMapping
+        集合7参数为:startTime
+        集合8参数为:org.springframework.web.servlet.DispatcherServlet.FLASH_MAP_MANAGER
+        集合9参数为:org.springframework.web.servlet.HandlerMapping.uriTemplateVariables
+        集合10参数为:org.springframework.web.servlet.DispatcherServlet.THEME_RESOLVER
+        集合11参数为:org.springframework.web.servlet.DispatcherServlet.THEME_SOURCE
+
+     二：RequestContextListener类的作用：
+        需要先了解ContextLoaderListener，此监听器将Web容器与Spring容器整合为什么这里还要用额外的RequestContextListener
+        以支持Bean的另外3个作用域，原因是ContextLoaderListener实现ServletContextListener监听器接口，
+        而ServletContextListener只负责监听Web容器的启动和关闭的事件
+
+        RequestContextFilter实现ServletRequestListener监听器接口，该监听器监听HTTP请求事件，Web服务器接收的每次请求都会通知该监听器。通过配置RequestContextFilter，Spring容器与Web容器结合的更加密切
+
+        并且设定RequestContextHolder中的requestAttributesHolder
+
+        RequestContextHolder类的作用:
+        RequestContextHolder顾名思义,持有上下文的Request容器.可以在Service层获取request
+        没有进入handlerMapping就无法获取到此参数
+
+
+
+
 day06一：新增自己的HandlerExceptionResolver的作用类继承与SimpleMappingExceptionResolver
         因未找到对应的controller中的mapping 并且在dispatcherServlet中声明抛出异常
         被此截获，加入到ioc容器bean中管理

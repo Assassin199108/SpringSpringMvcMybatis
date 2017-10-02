@@ -2,8 +2,11 @@ package spring_mvc4.filter;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
 
 import javax.servlet.*;
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 /**
@@ -17,11 +20,14 @@ public class MyFilterTest implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
         log.info("初始化filter--------------------->MyFilterTest");
+
     }
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         log.info("MyFilterTest开始过滤前---------------->IP地址:"+request.getRemoteAddr());
+
+
         chain.doFilter(request,response);
         log.info("MyFilterTest过滤后------------------->地址:"+response.getLocale().getCountry());
     }

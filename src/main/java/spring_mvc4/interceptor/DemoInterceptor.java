@@ -1,5 +1,10 @@
 package spring_mvc4.interceptor;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
@@ -15,6 +20,8 @@ import java.time.temporal.TemporalUnit;
  */
 public class DemoInterceptor extends HandlerInterceptorAdapter {
 
+    private static Log log = LogFactory.getLog(DemoInterceptor.class);
+
     /**
      * 拦截前 所需要做的事前
      * 置初始化操作或者是对当前请求做一个预处理，也可以在这个方法中进行一些判断来决定请求是否要继续进行下去
@@ -29,6 +36,27 @@ public class DemoInterceptor extends HandlerInterceptorAdapter {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         Instant instant = Instant.now();
         request.setAttribute("startTime",instant);
+
+        RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
+        log.info("在servlet启动前是否已经持有上下文的Request容器"+requestAttributes);
+
+        String[] attrs = requestAttributes.getAttributeNames(RequestAttributes.SCOPE_SESSION);
+        int count=0;
+        for (String attr : attrs) {
+            count++;
+            log.info("得到"+RequestAttributes.SCOPE_SESSION+"作用域内全部的参数集合:集合"+count+"参数为:"+attr);
+        }
+
+        attrs = requestAttributes.getAttributeNames(RequestAttributes.SCOPE_REQUEST);
+        count=0;
+        for (String attr : attrs) {
+            count++;
+            log.info("得到"+RequestAttributes.REFERENCE_REQUEST+"作用域内全部的参数集合:集合"+count+"参数为:"+attr);
+        }
+
+        log.info("当前得到session作用域的请求参数："+requestAttributes.getAttribute("name", RequestAttributes.SCOPE_SESSION));
+        HttpServletRequest request2 = ((ServletRequestAttributes)requestAttributes).getRequest();
+        log.info("2次request是否相等"+request.equals(request2));
 
         System.out.println("拦截前！拦截到了本次请求的url地址为："+request.getRequestURL());
         return true;

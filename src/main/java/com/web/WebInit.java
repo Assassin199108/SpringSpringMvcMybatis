@@ -1,18 +1,15 @@
 package com.web;
 
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.util.Assert;
-import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 import spring_mvc4.MyMvcConfig;
 import spring_mvc4.filter.MyFilterTest;
-
+import spring_mvc4.listener.MyOnlineCountListener;
+import spring_mvc4.listener.MySessionScanerListener;
 import javax.servlet.*;
 import java.util.EnumSet;
 
-import static javax.servlet.DispatcherType.*;
 
 /**
  * Created by wangwei on 2017/9/17.
@@ -43,6 +40,7 @@ public class WebInit extends AbstractAnnotationConfigDispatcherServletInitialize
         context.setServletContext(servletContext);
         //设置一个SpringMVC的DispatcherServlet
         DispatcherServlet dispatcherServlet = new DispatcherServlet(context);
+        //抛出异常
         dispatcherServlet.setThrowExceptionIfNoHandlerFound(true);
 
 
@@ -52,11 +50,16 @@ public class WebInit extends AbstractAnnotationConfigDispatcherServletInitialize
 
         servletContext.setAttribute("initMsg","my name is wang");//设置servlet全局参数
 
+        /**
+         * servlet全局开始新增自己的过滤器
+         */
         FilterRegistration.Dynamic filter = servletContext.addFilter("test", MyFilterTest.class);
-
         filter.setInitParameter("my first Filter","MyFilterTest");
         filter.addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST),true,"/");
         filter.addMappingForServletNames(EnumSet.of(DispatcherType.REQUEST),true,"SpringMvcFilter");
+
+        servletContext.addListener(MyOnlineCountListener.class);
+        servletContext.addListener(MySessionScanerListener.class);
     }
 
     @Override
