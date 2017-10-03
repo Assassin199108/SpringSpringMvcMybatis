@@ -16,6 +16,7 @@ import java.nio.charset.Charset;
 /**
  * Created by wangwei on 2017/10/2.
  * 自定义处理request 和 response的数据
+ * 并在Spring MVC中完成注册
  */
 public class MyMessageConverter extends AbstractHttpMessageConverter<DemoObj> {
 

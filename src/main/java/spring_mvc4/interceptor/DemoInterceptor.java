@@ -79,7 +79,8 @@ public class DemoInterceptor extends HandlerInterceptorAdapter {
         Instant endTime = Instant.now();
         Long duration = startTime.until(endTime, ChronoUnit.MILLIS);
 
-        System.out.println("拦截后，拦截到了本次请求去往渲染页面的地址为："+modelAndView.getViewName());
+        if (modelAndView!=null)
+            System.out.println("拦截后，拦截到了本次请求去往渲染页面的地址为："+modelAndView.getViewName());
         System.out.println("本次请求处理时间为1："+duration);
 
         request.setAttribute("handlingTime",duration);
