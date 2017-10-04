@@ -45,8 +45,11 @@ public class WebInit extends AbstractAnnotationConfigDispatcherServletInitialize
 
 
         ServletRegistration.Dynamic servlet = servletContext.addServlet("dispatcher",dispatcherServlet);
+        //开启servlet的拦截
         servlet.addMapping("/");
         servlet.setLoadOnStartup(1);
+        //开启异步的支持
+        servlet.setAsyncSupported(true);
 
         servletContext.setAttribute("initMsg","my name is wang");//设置servlet全局参数
 

@@ -1,4 +1,10 @@
 tips：
+day09一：Spring MVC测试
+        测试Web项目不需要启动项目：需要servlet相关的模拟对象,比如：
+        MockMVC,MockHttpServletRequest,MockHttpServletResponse,MockHttpSession
+        引入一个概念：测试驱动开发(TDD)
+        借助Junit和Spring TestContext framework 和RestController
+
 day08一：监听器的作用：                  监听对象                        监听对象的属性
         1：统计在线人数和在线用户       HttpSessionListener           httpSessionAttributeListener
         2：系统启动时加载初始化信息      servletContentListener       ServletContextAttributeListener
@@ -12,6 +18,8 @@ day08一：监听器的作用：                  监听对象                  
 
         configureMessageConverters:
             重载会覆盖掉SpringMvc默认注册的多个HttpMessageConverter
+
+     三：媒体类型text/event-stream是服务器端SSE的支持
 
 day07一：
         Spring MVC 内置默认的request作用域所存在的上下文全部的参数 例如：
