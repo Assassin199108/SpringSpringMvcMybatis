@@ -3,10 +3,10 @@ package com.web;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
-import spring_mvc4.MyMvcConfig;
-import spring_mvc4.filter.MyFilterTest;
-import spring_mvc4.listener.MyOnlineCountListener;
-import spring_mvc4.listener.MySessionScanerListener;
+import mvc5.MyMvcConfig;
+import mvc5.filter.MyFilterTest;
+import mvc5.listener.MyOnlineCountListener;
+import mvc5.listener.MySessionScanerListener;
 import javax.servlet.*;
 import java.util.EnumSet;
 
@@ -51,11 +51,10 @@ public class WebInit extends AbstractAnnotationConfigDispatcherServletInitialize
         //开启异步的支持
         servlet.setAsyncSupported(true);
 
-        servletContext.setAttribute("initMsg","my name is wang");//设置servlet全局参数
+        //设置servlet全局参数
+        servletContext.setAttribute("initMsg","my name is wang");
 
-        /**
-         * servlet全局开始新增自己的过滤器
-         */
+        //** servlet全局开始新增自己的过滤器    **/
         FilterRegistration.Dynamic filter = servletContext.addFilter("test", MyFilterTest.class);
         filter.setInitParameter("my first Filter","MyFilterTest");
         filter.addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST),true,"/");

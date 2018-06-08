@@ -16,22 +16,64 @@
         <!-- web -->
         <jsp.version>2.2</jsp.version>
         <jstl.version>1.2</jstl.version>
-        <servlet.version>3.1.0</servlet.version>
+        <servlet.version>4.0.1</servlet.version>
         <!-- spring -->
-        <spring-context.version>4.1.6.RELEASE</spring-context.version>
-        <aspectj-version>1.8.5</aspectj-version>
+        <spring-context.version>5.0.6.RELEASE</spring-context.version>
+        <aspectj-version>1.9.1</aspectj-version>
+
+        <!-- commons -->
+        <commons-io.version>2.6</commons-io.version>
+        <commons-lang3.version>3.7</commons-lang3.version>
+        <commons-httpclient.version>3.1</commons-httpclient.version>
+        <commons-fileupload.version>1.3.3</commons-fileupload.version>
+
+        <!-- jsr250-api -->
+        <jsr-api.version>1.0</jsr-api.version>
+
+        <!-- javaee-web-api -->
+        <javaee-web-api.version>8.0</javaee-web-api.version>
+
+        <!-- log -->
+        <log4j.version>1.2.17</log4j.version>
         <!-- Logging -->
-        <logback.version>1.0.13</logback.version>
-        <slf4j.version>1.7.5</slf4j.version>
+        <logback.version>1.2.3</logback.version>
+        <slf4j.version>1.7.25</slf4j.version>
+
+        <!-- lombok -->
+        <lombok.version>1.16.20	</lombok.version>
+
+        <!-- 消息中间件 -->
+        <amqp-client.version>5.2.0</amqp-client.version>
+        <spring-rabbit.version>2.0.3.RELEASE</spring-rabbit.version>
     </properties>
 
     <dependencies>
+        <!-- 消息中间件 -->
+        <!-- https://mvnrepository.com/artifact/com.rabbitmq/amqp-client -->
+        <dependency>
+            <groupId>com.rabbitmq</groupId>
+            <artifactId>amqp-client</artifactId>
+            <version>${amqp-client.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.amqp</groupId>
+            <artifactId>spring-rabbit</artifactId>
+            <version>${spring-rabbit.version}</version>
+        </dependency>
+
         <!-- web -->
         <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-web-api</artifactId>
-            <version>7.0</version>
+            <version>${javaee-web-api.version}</version>
             <scope>provided</scope><!-- 类似compile，期望JDK、容器或使用者会提供这个依赖。如servlet.jar-->
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
         </dependency>
 
         <!-- spring mvc -->
@@ -76,7 +118,7 @@
         <dependency>
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
-            <version>1.2.16</version>
+            <version>${log4j.version}</version>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -106,18 +148,31 @@
             <version>2.5.3</version>
         </dependency>
 
+        <!-- apache定义的各种工具类 -->
+        <!--   fei非必需 可简化IO操作-->
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>${commons-io.version}</version>
+        </dependency>
+
         <!-- 文件上传 -->
         <dependency>
             <groupId>commons-fileupload</groupId>
             <artifactId>commons-fileupload</artifactId>
-            <version>1.3.1</version>
+            <version>${commons-fileupload.version}</version>
         </dependency>
 
-        <!-- fei非必需 可简化IO操作-->
         <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-            <version>2.3</version>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>${commons-lang3.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-httpclient</groupId>
+            <artifactId>commons-httpclient</artifactId>
+            <version>${commons-httpclient.version}</version>
         </dependency>
 
      <!-- Spring 的支持 -->
@@ -149,24 +204,12 @@
             <artifactId>aspectjweaver</artifactId>
             <version>${aspectj-version}</version>
         </dependency>
-        <!-- 文件操作 -->
-        <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-            <version>2.3</version>
-        </dependency>
+
         <!-- 增加JSR250的支持 -->
         <dependency>
             <groupId>javax.annotation</groupId>
             <artifactId>jsr250-api</artifactId>
-            <version>1.0</version>
-        </dependency>
-        <!-- servlet支持 -->
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-            <version>3.1.0</version>
-            <scope>provided</scope>
+            <version>${jsr-api.version}</version>
         </dependency>
         <!-- Spring 测试的支持 -->
         <dependency>
@@ -175,13 +218,20 @@
             <version>${spring-context.version}</version>
             <scope>test</scope>
         </dependency>
+
+        <!-- 单元测试-->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.11</version>
+            <version>4.12</version>
             <scope>test</scope>
         </dependency>
 
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.47</version>
+        </dependency>
     </dependencies>
 
     <build>
